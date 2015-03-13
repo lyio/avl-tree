@@ -76,4 +76,17 @@ describe 'AvlNode remove_node' do
     tree.root.right.value.should === 3
     tree.root.left.should === nil
   end
+
+  it 'should correctly remove node and rebalance tree' do
+    tree = AvlTree.new
+    tree.add(3)
+    tree.add(4)
+    tree.add(1)
+    tree.add 5
+
+    tree.remove 1
+    puts tree.root
+    tree.root.value.should === 4
+    tree.nodes_inorder.length.should === 3
+    end
 end

@@ -19,7 +19,7 @@ class AvlTree
     insert_avl(@root, n)
   end
 
-  # Removes a node from the tree, if it is existent.
+  # Removes a node from the tree, if it exists
   def remove(k)
     #First we must find the node, after this we can delete it.
     remove_avl(@root, k);
@@ -136,9 +136,9 @@ class AvlTree
       else
         r.parent.right = p
         # balancing must be done until the root is reached.
-        recursive_balance(r.parent)
       end
     end
+    recursive_balance(r.parent)
     r = nil
   end
 
@@ -146,6 +146,7 @@ class AvlTree
   # @param node The node for the rotation.
   # @return The root of the rotated tree.
   def rotate_left(node)
+    puts "left rotation on node #{node}"
     v = node.right
     v.parent = node.parent
     node.right = v.left
@@ -169,6 +170,7 @@ class AvlTree
   # @param node The node for the rotation
   # @return The root of the new rotated tree.
   def rotate_right(node)
+    puts "right rotation on node #{node}"
     v = node.left
     v.parent = node.parent
     node.left = v.right
@@ -188,31 +190,33 @@ class AvlTree
     v
   end
 
-  #@param u The node for the rotation.
+  #@param node The node for the rotation.
   # @return The root after the double rotation.
-  def double_rotate_left_right(u)
-    u.left = rotate_left u.left
-    rotate_right u
+  def double_rotate_left_right(node)
+    puts "double rotation left right on node #{node}"
+    node.left = rotate_left node.left
+    rotate_right node
   end
 
-  def double_rotate_right_left(u)
-    u.right = rotate_right u.right
-    rotate_left u
+  def double_rotate_right_left(node)
+    puts "double rotation right left on node #{node}"
+    node.right = rotate_right node.right
+    rotate_left node
   end
 
   # Returns the successor of a given node in the tree (search recursivly).
-  # @param q The predecessor.
+  # @param node The predecessor.
   # @return The successor of node q.
-  def successor(q)
-    if q.right.nil?
-      p = q.parent
-      while not p.nil? and q==p.right
-        q = p
-        p = q.parent
+  def successor(node)
+    if node.right.nil?
+      p = node.parent
+      while not p.nil? and node==p.right
+        node = p
+        p = node.parent
       end
       p
     else
-      r = q.right
+      r = node.right
       until r.left.nil?
         r = r.left
       end
@@ -255,13 +259,13 @@ class AvlTree
 
 
   #Function to calculate inorder recursivly.
-  #@param n The current node.
-  #@param io The list to save the inorder traversal.
-  def inorder(n, io)
-    unless n.nil?
-      inorder(n.left, io)
-      io.push(n)
-      inorder(n.right, io)
+  #@param node The current node.
+  #@param out_list The list to save the inorder traversal.
+  def inorder(node, out_list)
+    unless node.nil?
+      inorder(node.left, out_list)
+      out_list.push(node)
+      inorder(node.right, out_list)
     end
   end
  end
